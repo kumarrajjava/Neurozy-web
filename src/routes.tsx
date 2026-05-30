@@ -6,6 +6,7 @@ import BlogsPage from './pages/blogs';
 import ContactPage from './pages/contact';
 import DashboardPage from './pages/dashboard';
 import LoginPage from './pages/login';
+import SignupPage from './pages/signup';
 import ProdNotFoundPage from './pages/_404';
 
 export const routes: RouteObject[] = [
@@ -36,6 +37,10 @@ export const routes: RouteObject[] = [
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignupPage />,
   },
   {
     path: '*',

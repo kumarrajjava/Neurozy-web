@@ -10,17 +10,6 @@ export default function Footer() {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="flex justify-center mb-8">
-          {/* Logo */}
-          <Link to="/" className="shrink-0">
-            <img
-              src="/assets/images/neurozy-logo.png"
-              alt="Neurozy"
-              className="h-8 w-auto object-contain"
-            />
-          </Link>
-        </div>
-
         {/* Bottom bar */}
         <div
           className="pt-6 text-center text-xs"

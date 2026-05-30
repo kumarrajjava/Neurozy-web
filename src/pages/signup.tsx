@@ -1,8 +1,8 @@
 import { Helmet } from '@dr.pogodin/react-helmet';
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Cpu, Shield, Zap } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Cpu, Shield, Zap, User } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import Header from '@/layouts/parts/Header';
 
@@ -12,13 +12,16 @@ const features = [
   { icon: Zap, text: 'Real-time analytics & insights' },
 ];
 
-export default function LoginPage() {
-  const { login } = useAuth();
+export default function SignupPage() {
+  const { signup } = useAuth();
   const navigate = useNavigate();
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -26,14 +29,35 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+
+    // Validation
+    if (!fullName.trim()) {
+      setError('Please enter your full name.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    if (!agreedToTerms) {
+      setError('Please agree to the terms and conditions.');
+      return;
+    }
+
     setLoading(true);
     await new Promise((r) => setTimeout(r, 800));
-    const ok = login(email, password);
+    
+    // Create new account
+    const ok = signup(fullName, email, password);
     setLoading(false);
     if (ok) {
       navigate('/dashboard');
     } else {
-      setError('Invalid email or password.');
+      setError('Email already registered. Please use a different email or sign in.');
     }
   }
 
@@ -57,8 +81,8 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title>Sign In — Neurozy</title>
-        <meta name="description" content="Sign in to your Neurozy AI dashboard." />
+        <title>Sign Up — Neurozy</title>
+        <meta name="description" content="Create your Neurozy AI account and join our platform." />
       </Helmet>
 
       <Header />
@@ -146,19 +170,18 @@ export default function LoginPage() {
                   color: '#ffffff',
                 }}
               >
-                Software that{' '}
+                Start your{' '}
                 <span
                   style={{
                     color: '#00e5ff',
                     textShadow: '0 0 20px rgba(0,229,255,0.4)',
                   }}
                 >
-                  Thinks Ahead
+                  AI Journey
                 </span>
               </h2>
               <p style={{ color: '#c8d8f0', fontSize: '15px', lineHeight: 1.7, maxWidth: 360 }}>
-                Access your full Neurozy AI platform — manage products, monitor performance, and
-                scale your intelligence.
+                Get access to Neurozy's full AI platform — manage products, monitor performance, and scale your intelligence.
               </p>
             </div>
 
@@ -192,7 +215,7 @@ export default function LoginPage() {
         </div>
 
         {/* ── Right panel (form) ── */}
-        <div className="flex-1 flex items-center justify-center px-6 py-12 relative">
+        <div className="flex-1 flex items-center justify-center px-6 py-12 relative overflow-y-auto">
           {/* Subtle grid */}
           <div
             className="absolute inset-0 pointer-events-none"
@@ -220,13 +243,13 @@ export default function LoginPage() {
           >
             {/* Mobile logo */}
             <div className="flex lg:hidden justify-center mb-8">
-              <a href="/">
+              <Link to="/">
                 <img
                   src="/assets/images/neurozy-logo.png"
                   alt="Neurozy"
                   className="h-8 w-auto object-contain"
                 />
-              </a>
+              </Link>
             </div>
 
             {/* Heading */}
@@ -240,16 +263,41 @@ export default function LoginPage() {
                   lineHeight: 1.2,
                 }}
               >
-                Sign in to{' '}
-                <span style={{ color: '#00e5ff' }}>Neurozy</span>
+                Create your{' '}
+                <span style={{ color: '#00e5ff' }}>Neurozy</span> account
               </h1>
               <p style={{ color: '#4d6a8a', fontSize: '14px' }}>
-                Enter your credentials to access the dashboard
+                Join our AI platform and start building
               </p>
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              {/* Full Name */}
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="fullName" style={{ color: '#c8d8f0', fontSize: '12px', fontWeight: 600, letterSpacing: '0.04em' }}>
+                  FULL NAME
+                </label>
+                <div className="relative">
+                  <User
+                    size={16}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{ color: focusedField === 'fullName' ? '#00e5ff' : '#4d6a8a', transition: 'color 0.2s' }}
+                  />
+                  <input
+                    id="fullName"
+                    type="text"
+                    required
+                    placeholder="John Doe"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    onFocus={() => setFocusedField('fullName')}
+                    onBlur={() => setFocusedField(null)}
+                    style={getInputStyle('fullName')}
+                  />
+                </div>
+              </div>
+
               {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" style={{ color: '#c8d8f0', fontSize: '12px', fontWeight: 600, letterSpacing: '0.04em' }}>
@@ -266,7 +314,7 @@ export default function LoginPage() {
                     type="email"
                     required
                     autoComplete="email"
-                    placeholder="raj@neurozy.ai"
+                    placeholder="your@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setFocusedField('email')}
@@ -278,17 +326,9 @@ export default function LoginPage() {
 
               {/* Password */}
               <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" style={{ color: '#c8d8f0', fontSize: '12px', fontWeight: 600, letterSpacing: '0.04em' }}>
-                    PASSWORD
-                  </label>
-                  <button
-                    type="button"
-                    style={{ color: '#00e5ff', fontSize: '12px', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer' }}
-                  >
-                    Forgot password?
-                  </button>
-                </div>
+                <label htmlFor="password" style={{ color: '#c8d8f0', fontSize: '12px', fontWeight: 600, letterSpacing: '0.04em' }}>
+                  PASSWORD
+                </label>
                 <div className="relative">
                   <Lock
                     size={16}
@@ -299,7 +339,7 @@ export default function LoginPage() {
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     required
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     placeholder="••••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -321,23 +361,69 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Remember me */}
-              <label className="flex items-center gap-2.5 cursor-pointer select-none" style={{ marginTop: '-4px' }}>
+              {/* Confirm Password */}
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="confirmPassword" style={{ color: '#c8d8f0', fontSize: '12px', fontWeight: 600, letterSpacing: '0.04em' }}>
+                  CONFIRM PASSWORD
+                </label>
+                <div className="relative">
+                  <Lock
+                    size={16}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{ color: focusedField === 'confirmPassword' ? '#00e5ff' : '#4d6a8a', transition: 'color 0.2s' }}
+                  />
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    autoComplete="new-password"
+                    placeholder="••••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onFocus={() => setFocusedField('confirmPassword')}
+                    onBlur={() => setFocusedField(null)}
+                    style={{ ...getInputStyle('confirmPassword'), paddingRight: '46px' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors duration-200"
+                    style={{ color: '#4d6a8a', background: 'none', border: 'none', cursor: 'pointer' }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = '#00e5ff')}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = '#4d6a8a')}
+                    tabIndex={-1}
+                  >
+                    {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Terms */}
+              <label className="flex items-center gap-2.5 cursor-pointer select-none" style={{ marginTop: '4px' }}>
                 <div
-                  onClick={() => setRememberMe((v) => !v)}
+                  onClick={() => setAgreedToTerms((v) => !v)}
                   className="w-4 h-4 rounded flex items-center justify-center shrink-0 transition-all duration-200"
                   style={{
-                    background: rememberMe ? '#00e5ff' : 'transparent',
-                    border: `2px solid ${rememberMe ? '#00e5ff' : 'rgba(0,229,255,0.3)'}`,
+                    background: agreedToTerms ? '#00e5ff' : 'transparent',
+                    border: `2px solid ${agreedToTerms ? '#00e5ff' : 'rgba(0,229,255,0.3)'}`,
                   }}
                 >
-                  {rememberMe && (
+                  {agreedToTerms && (
                     <svg width="9" height="7" viewBox="0 0 9 7" fill="none">
                       <path d="M1 3.5L3.5 6L8 1" stroke="#050b1f" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                 </div>
-                <span style={{ color: '#c8d8f0', fontSize: '13px' }}>Remember me for 30 days</span>
+                <span style={{ color: '#c8d8f0', fontSize: '13px' }}>
+                  I agree to the{' '}
+                  <a href="#" style={{ color: '#00e5ff', textDecoration: 'none' }}>
+                    Terms of Service
+                  </a>
+                  {' '}and{' '}
+                  <a href="#" style={{ color: '#00e5ff', textDecoration: 'none' }}>
+                    Privacy Policy
+                  </a>
+                </span>
               </label>
 
               {/* Error */}
@@ -357,7 +443,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 mt-1 relative overflow-hidden"
+                className="w-full inline-flex items-center justify-center gap-2.5 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 mt-3 relative overflow-hidden"
                 style={{
                   background: loading ? 'rgba(0,229,255,0.6)' : '#00e5ff',
                   color: '#050b1f',
@@ -383,11 +469,11 @@ export default function LoginPage() {
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3" />
                       <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
                     </svg>
-                    Authenticating…
+                    Creating account…
                   </>
                 ) : (
                   <>
-                    Sign In
+                    Create Account
                     <ArrowRight size={16} />
                   </>
                 )}
@@ -396,15 +482,15 @@ export default function LoginPage() {
 
             {/* Footer */}
             <p className="text-center mt-6" style={{ color: '#4d6a8a', fontSize: '13px' }}>
-              Don't have an account?{' '}
-              <a
-                href="/signup"
-                style={{ color: '#00e5ff', fontWeight: 600 }}
+              Already have an account?{' '}
+              <Link
+                to="/login"
+                style={{ color: '#00e5ff', fontWeight: 600, textDecoration: 'none' }}
                 onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.textDecoration = 'underline')}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.textDecoration = 'none')}
               >
-                Sign up
-              </a>
+                Sign in
+              </Link>
             </p>
           </motion.div>
         </div>

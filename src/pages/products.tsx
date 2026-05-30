@@ -159,7 +159,146 @@ export default function ProductsPage() {
         {/* Divider */}
         <div style={{ height: '1px', background: 'rgba(0,229,255,0.15)' }} />
 
-        {/* Status legend */}
+        {/* AI-Powered Tech Workspace Section */}
+        <section className="py-24" style={{ background: '#0a0e2e' }}>
+          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' as const }}
+              className="rounded-2xl overflow-hidden"
+              style={{
+                border: '1px solid rgba(0,229,255,0.25)',
+                boxShadow: '0 0 40px rgba(0,229,255,0.1)',
+              }}
+            >
+              <img
+                src="/assets/images/intro.png"
+                alt="AI-powered tech workspace"
+                className="w-full h-auto object-cover"
+              />
+            </motion.div>
+
+            {/* Right: Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: 'easeOut' as const, delay: 0.1 }}
+              className="flex flex-col gap-6"
+            >
+              <div>
+                <span
+                  className="text-xs font-semibold tracking-widest uppercase block mb-3"
+                  style={{
+                    color: '#00e5ff',
+                    fontFamily: 'DM Sans, sans-serif',
+                    letterSpacing: '0.15em',
+                  }}
+                >
+                  Experience the Future
+                </span>
+                <h2
+                  className="font-bold mb-4"
+                  style={{
+                    fontFamily: 'Space Grotesk, sans-serif',
+                    fontSize: 'clamp(28px, 3.5vw, 44px)',
+                    color: '#ffffff',
+                  }}
+                >
+                  AI-Powered Tech{' '}
+                  <span
+                    style={{
+                      color: '#00e5ff',
+                      textShadow: '0 0 30px rgba(0,229,255,0.3)',
+                    }}
+                  >
+                    Workspace
+                  </span>
+                </h2>
+                <p
+                  className="text-base leading-relaxed"
+                  style={{
+                    color: '#c8d8f0',
+                    fontFamily: 'DM Sans, sans-serif',
+                  }}
+                >
+                  Our products integrate seamlessly into your workflow, enhancing productivity and
+                  unlocking new possibilities. Built with cutting-edge AI technology and designed for
+                  teams that think ahead.
+                </p>
+              </div>
+
+              <ul className="flex flex-col gap-3">
+                {[
+                  'Intelligent automation at your fingertips',
+                  'Real-time collaboration and insights',
+                  'Scalable infrastructure for growth',
+                  'Enterprise-grade security',
+                ].map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <div
+                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                      style={{
+                        background: 'rgba(0,229,255,0.1)',
+                        border: '1px solid rgba(0,229,255,0.4)',
+                      }}
+                    >
+                      <svg
+                        width="12"
+                        height="10"
+                        viewBox="0 0 12 10"
+                        fill="none"
+                        style={{ color: '#00e5ff' }}
+                      >
+                        <path
+                          d="M1 5L4 8L11 1"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      className="text-sm"
+                      style={{
+                        color: '#c8d8f0',
+                        fontFamily: 'DM Sans, sans-serif',
+                      }}
+                    >
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200 w-fit"
+                style={{
+                  background: '#00e5ff',
+                  color: '#050b1f',
+                  fontFamily: 'DM Sans, sans-serif',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                    '0 0 28px rgba(0,229,255,0.45)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none';
+                }}
+              >
+                Explore Now
+                <ArrowRight size={16} />
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Divider */}
         <section className="py-10" style={{ background: '#0a0e2e' }}>
           <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-center gap-6">
             {[
