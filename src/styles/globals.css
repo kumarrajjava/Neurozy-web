@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=DM+Sans:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core Colors */
+    --background: 226 72% 7%;
+    --foreground: 0 0% 96%;
+    --card: 226 70% 17%;
+    --card-foreground: 216 57% 86%;
+    --popover: 226 72% 7%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 186 100% 50%;
+    --primary-foreground: 0 0% 34%;
+    --secondary: 212 100% 65%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 233 64% 11%;
+    --muted-foreground: 216 57% 86%;
+    --accent: 186 100% 50%;
+    --accent-foreground: 0 0% 34%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 226 57% 24%;
+    --input: 226 57% 24%;
+    --ring: 186 100% 50%;
+
+    /* Extended Colors */
+    --chart-1: 186 100% 80%;
+    --chart-2: 186 100% 65%;
+    --chart-3: 186 100% 50%;
+    --chart-4: 186 100% 35%;
+    --chart-5: 186 100% 20%;
+
+    /* Sidebar Colors */
+    --sidebar: 233 64% 11%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 186 100% 50%;
+    --sidebar-primary-foreground: 0 0% 34%;
+    --sidebar-accent: 186 100% 50%;
+    --sidebar-accent-foreground: 0 0% 34%;
+    --sidebar-border: 226 57% 24%;
+    --sidebar-ring: 186 100% 50%;
+
+    /* Typography */
+    --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-heading: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+    --font-mono: ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+
+    /* Border Radius */
+    --radius: 0.5rem;
+
+    /* Shadows */
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
+    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading) !important;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .animate-in {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Unless told otherwise, keep it for smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
