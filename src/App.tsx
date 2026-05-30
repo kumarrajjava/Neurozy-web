@@ -7,7 +7,6 @@ import {
   useLocation,
 } from 'react-router-dom';
 
-import AiroErrorBoundary from '../dev-tools/src/AiroErrorBoundary';
 import CookieBannerErrorBoundary from '@/components/CookieBannerErrorBoundary';
 import RootLayout from './layouts/RootLayout';
 import Spinner from './components/Spinner';
@@ -50,17 +49,10 @@ const rootElement = (
 
 // Wrap the agent-editable flat `routes` array in a layout route so ScrollRestoration
 // + shared chrome live once above every page. Keeping the wrap here (instead of
-// in routes.tsx) preserves the agent's simple flat-route contract. The dev
-// boundary must live inside the route element so React Router doesn't replace it
-// with its default route error UI before our boundary can catch render errors.
+// in routes.tsx) preserves the agent's simple flat-route contract.
 const routeTree: RouteObject[] = [
   {
-    element:
-      import.meta.env.MODE === 'development' ? (
-        <AiroErrorBoundary>{rootElement}</AiroErrorBoundary>
-      ) : (
-        rootElement
-      ),
+    element: rootElement,
     children: routes,
   },
 ];
