@@ -63,7 +63,7 @@ if (corsOrigins.length === 0) {
 }
 
 export default defineConfig(({ mode, isSsrBuild }) => ({
-	envPrefix: ["VITE_", "SITE_"],
+  base: "/Neurozy-web/",
 
 	plugins: [
 		react(),
