@@ -7,7 +7,7 @@ import ContactPage from './pages/contact';
 import DashboardPage from './pages/dashboard';
 import LoginPage from './pages/login';
 import SignupPage from './pages/signup';
-import ProdNotFoundPage from './pages/_404';
+import ProdNotFoundPage from './pages/home';
 
 export const routes: RouteObject[] = [
   {

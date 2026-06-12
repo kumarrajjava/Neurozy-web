@@ -28,7 +28,7 @@ export default function Header() {
           <img
             src="/assets/images/neurozy-logo.png"
             alt="Neurozy"
-            className="h-9 w-auto object-contain"
+            className="h-12 w-auto object-contain"
           />
         </Link>
 
